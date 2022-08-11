@@ -19,7 +19,7 @@ jobs:
            persist-credentials: false
       - name: tag and release
         run: |
-          version=$(cat Chart.yaml | awk /^version:/ { print $2 }
+          version=$(cat Chart.yaml | awk /^version:/ { print $2 })
           git tag -a $version -m "Automatic release of v$version"
           git push origin $version
           gh release create $version --generate-notes --draft
