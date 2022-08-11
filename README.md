@@ -8,4 +8,4 @@ To test the `tag and release` action
    - `enhancement`, `feature`, `minor` to bump the minor version number
    - `bug`, `values`, `patch` to bump the patch number
    
-
+**NOTE** In the future the labels will likely be reduced to `major`, `minor`, and `patch` so it is likely a good idea to just stick with those labels from the start.
