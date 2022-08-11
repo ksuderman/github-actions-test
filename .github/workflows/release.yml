@@ -18,10 +18,12 @@ jobs:
         with:
            persist-credentials: false
       - name: tag and release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           version=$(cat Chart.yaml | awk '/^version:/ { print $2 }')
-          git config user.email "bot@cloudve.org"
-          git config user.name "GitHub Action"
+          git config user.email $(git --no-pager log --format=format:'%ae' -n 1)
+          git config user.name $(git --no-pager log --format=format:'%an' -n 1)
           git tag -a $version -m "Automatic release of v$version"
           git push origin $version
           gh release create $version --generate-notes --draft
