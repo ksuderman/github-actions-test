@@ -1,14 +1,13 @@
-name: Perform a release
+name: Bump version
 on:
   pull_request_target:
     types: [closed]
   branches:
-    - master
-    - main
+    - dev
 jobs:
   package:
     if: github.event.pull_request.merged == true
-    name: Tag and Release
+    name: Bump version
     runs-on: ubuntu-latest
     steps:
       - name: Require a label and version bump to package and release
@@ -16,8 +15,13 @@ jobs:
         with:
           mode: minimum
           count: 1
-          labels: "release"
+          labels: "major, minor, patch"
       - uses: actions/checkout@v2
-      - uses: ksuderman/github-action-tag-release@beta1
+      - uses: ksuderman/github-action-bump-version@master
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        with:
+          type: ${{ join(github.event.pull_request.label.*.name, ' ') }}
+          command: awk
+          file: Chart.yaml
+

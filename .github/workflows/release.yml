@@ -3,7 +3,7 @@ on:
   pull_request_target:
     types: [closed]
   branches:
-    - dev
+    - master
 jobs:
   package:
     if: github.event.pull_request.merged == true
@@ -15,8 +15,8 @@ jobs:
         with:
           mode: minimum
           count: 1
-          labels: "major, minor, patch"
+          labels: "release"
       - uses: actions/checkout@v2
-      - uses: ksuderman/github-action-bump-version@beta2
+      - uses: ksuderman/github-action-tag-release@beta1
         env:
           GITHUB_TOKEN: ${{ github.token }}
