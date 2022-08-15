@@ -17,6 +17,6 @@ jobs:
           count: 1
           labels: "release"
       - uses: actions/checkout@v2
-      - uses: ksuderman/github-action-tag-release@beta1
+      - uses: ksuderman/github-action-tag-release@master
         env:
           GITHUB_TOKEN: ${{ github.token }}
