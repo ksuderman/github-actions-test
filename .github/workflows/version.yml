@@ -2,8 +2,8 @@ name: Bump version
 on:
   pull_request_target:
     types: [closed]
-  branches:
-    - dev
+    branches:
+      - dev
 jobs:
   package:
     if: github.event.pull_request.merged == true
