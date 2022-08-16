@@ -21,3 +21,4 @@ pr=$(gh pr create --base dev --head $name --title $name --body $name --label min
 
 #  And immediately merge it.
 gh pr merge $pr --rebase --body $name --delete-branch
+git pull origin dev
