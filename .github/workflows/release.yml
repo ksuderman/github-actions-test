@@ -5,12 +5,15 @@ on:
     branches:
       - master
 jobs:
-  package:
+  release:
     if: github.event.pull_request.merged == true
     name: Tag and Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ksuderman/github-action-tag-release@master
+      - uses: ksuderman/github-action-tag-release@release_v2
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        with:
+          file: Chart.yaml
+          parser: awk
