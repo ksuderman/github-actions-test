@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-set -eu
-
 name=$1
+label=${2:-minor}
+
+set -eu
 
 # Create a new branch
 git checkout -b $name
@@ -17,7 +18,7 @@ git push origin $name
 git checkout dev
 
 # Create a PR
-pr=$(gh pr create --base dev --head $name --title $name --body $name --label minor | tail -1)
+pr=$(gh pr create --base dev --head $name --title $name --body $name --label $label | tail -1)
 
 #  And immediately merge it.
 gh pr merge $pr --rebase --body $name --delete-branch
