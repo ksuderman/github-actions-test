@@ -22,7 +22,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           type: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
-          #type: minor
           command: awk
           file: Chart.yaml
 
