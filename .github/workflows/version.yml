@@ -17,7 +17,7 @@ jobs:
           count: 1
           labels: "major, minor, patch"
       - uses: actions/checkout@v2
-      - uses: ksuderman/github-action-bump-version@master
+      - uses: ksuderman/github-action-bump-version@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
