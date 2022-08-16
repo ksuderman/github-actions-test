@@ -22,4 +22,4 @@ pr=$(gh pr create --base dev --head $name --title $name --body $name --label $la
 
 #  And immediately merge it.
 gh pr merge $pr --merge --body $name --delete-branch
-git pull origin dev
+#git pull origin dev
