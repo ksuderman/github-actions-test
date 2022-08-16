@@ -15,3 +15,4 @@ To test the `tag and release` action
 Ch-ch-ch-changes (David Bowie voice)
 test6
 test8
+test7
