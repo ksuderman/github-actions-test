@@ -60,3 +60,4 @@ The `tag-release` action extracts the current version from a yaml-ish like file 
    Where `N` is the pull request number as returned by the `gh pr create` command.
 
 **Note** we do not need to add a `label` or configure anything else.  This action just needs to be triggered by a relevant GitHub event, e.g. merging into master.
+release-2.0.1
