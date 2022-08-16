@@ -21,5 +21,5 @@ git checkout dev
 pr=$(gh pr create --base dev --head $name --title $name --body $name --label $label | tail -1)
 
 #  And immediately merge it.
-gh pr merge $pr --rebase --body $name --delete-branch
+gh pr merge $pr --merge --body $name --delete-branch
 git pull origin dev
