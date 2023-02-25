@@ -19,12 +19,7 @@ jobs:
       - name: Get Docker metadata
         run: |
           response=$(curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
-          if [[ $response == "200" ]] ; then
-            echo "An image with the tag ${{ github.event.inputs.tag }} already exists.\nSkipping."
-            exit 1
-          else
-            echo "Building and pushing ${{ github.event.inputs.tag }}"
-          fi
+          echo $response
       - name: Do something useful here.
         run: echo "Doing something useful."
 
