@@ -18,12 +18,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Echo test
+      - name: Check curl
         run: |
-          echo "This is a test"
+          which curl
+      - name: Curl version
+        run: curl --version
       - name: Get Docker metadata
         run: |
-          response=$(/usr/bin/curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
+          response=$(/usr/bin/curl -s -v -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
           echo $response
       - name: Do something useful here.
         run: echo "Doing something useful."
