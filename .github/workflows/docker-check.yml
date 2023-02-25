@@ -16,6 +16,11 @@ jobs:
   deploy-docker-image:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Echo test
+        run: |
+          echo "This is a test"
       - name: Get Docker metadata
         run: |
           response=$(/usr/bin/curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
