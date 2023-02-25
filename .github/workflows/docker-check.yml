@@ -24,9 +24,10 @@ jobs:
       - name: Curl version
         run: curl --version
       - name: Get Docker metadata
+        id: exists
         run: |
-          response=$(/usr/bin/curl -s -v -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
-          echo $response
+          /usr/bin/curl -isv -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }}
+          echo Done
       - name: Do something useful here.
         run: echo "Doing something useful."
 
