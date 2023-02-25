@@ -1,4 +1,4 @@
-name: Reject Docker build if version already deployed
+name: Docker test
 
 on:
   workflow_dispatch:
@@ -18,8 +18,7 @@ jobs:
     steps:
       - name: Get Docker metadata
         run: |
-          response=$(curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
-          echo $response
+          curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }}
       - name: Do something useful here.
         run: echo "Doing something useful."
 
