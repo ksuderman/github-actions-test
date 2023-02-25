@@ -1,7 +1,7 @@
 name: Reject Docker build if version already deployed
 
 on:
-  workspace_dispatch:
+  workflow_dispatch:
     inputs:
       repository:
         description: The name of the repository
