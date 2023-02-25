@@ -18,7 +18,8 @@ jobs:
     steps:
       - name: Get Docker metadata
         run: |
-          curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }}
+          response=$(/usr/bin/curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
+          echo $response
       - name: Do something useful here.
         run: echo "Doing something useful."
 
