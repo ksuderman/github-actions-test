@@ -26,8 +26,10 @@ jobs:
       - name: Get Docker metadata
         id: exists
         run: |
-          /usr/bin/curl -s -X HEAD -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }}
-          exit 0
+          code=$(/usr/bin/curl -s -X HEAD -H "Expect:" -w "%{http_code}" https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
+          if [[ $code == 200 ]] ; then
+            exit 1
+          fi
       - name: Do something useful here.
         run: echo "Doing something useful."
 
