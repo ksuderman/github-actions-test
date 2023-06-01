@@ -69,7 +69,7 @@ jobs:
           echo "id=$history" >> $GITHUB_OUTPUT
       - name: Import a dataset
         id: job
-        run: }
+        run: 
           job_id=$(abm galaxy dataset import --history ${{ steps.history.outputs.id }} rna-20-1 | jq -r .outputs[0].id)
           echo "job_id=$job_id"
           echo "id=$job_id" >> $GITHUB_OUTPUT
