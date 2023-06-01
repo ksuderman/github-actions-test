@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Don't build and push to release_* images if the image already exists
         run: |
-          code=$(/usr/bin/curl -s -w "%{http_code}" -o /dev/null https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
+          code=$(/usr/bin/curl -sI -w "%{http_code}" -o /dev/null https://hub.docker.com/v2/repositories/${{ github.event.inputs.repository }}/tags/${{ github.event.inputs.tag }})
           if [[ $code == 200 ]] ; then
             echo "Image exists. Skipping the Docker build.
             exit 1
