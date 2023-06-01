@@ -49,6 +49,8 @@ jobs:
         run: pip install gxabm
       - name: Configure ABM and upload a file
         run: |
+          mkdir ~/.abm
+          touch ~/.abm/profile.yml
           abm config create galaxy /dev/null
           abm config url galaxy http://localhost:8000/galaxy/
           key=$(abm galaxy user create admin admin@example.org galaxypassword | jq -r .key)
