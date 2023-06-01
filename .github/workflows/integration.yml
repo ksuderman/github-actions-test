@@ -55,7 +55,9 @@ jobs:
           curl -o datasets.yml https://raw.githubusercontent.com/galaxyproject/gxabm/master/samples/datasets.yml
           cd -
           abm config create galaxy /dev/null
-          abm config url galaxy http://localhost/galaxy/
+          ip=$(kubectl get svc -n galaxy galaxy-nginx -o jsonpath='{ .spec.clusterIP }'
+          port=$(kubectl get svc -n galaxy galaxy-nginx -o jsonpath='{ .spec.ports[0].port}'
+          abm config url galaxy http://$ip:$port/galaxy/
           key=$(abm galaxy user create admin admin@example.org galaxypassword | jq -r .key)
           abm config key galaxy $key
           history=$(abm galaxy history create "Test Data" | jq -r .id)
