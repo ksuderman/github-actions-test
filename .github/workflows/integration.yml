@@ -1,0 +1,61 @@
+name: Deployment test on K3S
+on:
+  workflow_dispatch: {}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: Helm dep update
+        run: cd galaxy/ && helm dep update && cd ..
+      - name: Start k8s locally
+        uses: jupyterhub/action-k3s-helm@v3
+        with:
+          k3s-version: v1.26.1+k3s1  # releases:  https://github.com/k3s-io/k3s/tags
+          metrics-enabled: false
+          traefik-enabled: false
+      - name: Verify function of k8s, kubectl, and helm
+        run: |
+          echo "kubeconfig: $KUBECONFIG"
+          kubectl version
+          kubectl get pods --all-namespaces
+
+          helm version
+          helm list
+      - name: Helm repo add galaxy
+        run: helm repo add galaxy https://github.com/CloudVE/helm-charts/raw/master
+      - name: Helm install Galaxy
+        run: time bash -c 'helm install --create-namespace -n galaxy galaxy ./galaxy --set configs."galaxy\.yml".galaxy.admin_users=admin@example.org --set configs."galaxy\.yml".galaxy.master_api_key=galaxypassword --set persistence.accessMode="ReadWriteOnce" --set resources.requests.memory=0Mi,resources.requests.cpu=0m,cvmfs.cvmfscsi.cache.alien.enabled=false --wait --timeout=1200s'
+      - name: Get events
+        run: kubectl get events -n galaxy; kubectl get events -n csi-drivers;
+        if: always()
+      - name: Get pods, pvc, and pv
+        run: kubectl get pods -n galaxy; kubectl get pvc -n galaxy; kubectl get pv -n galaxy
+        if: always()
+      - name: Print web handler log
+        run: bash -c "kubectl logs -n galaxy $(kubectl -n galaxy get pods | grep -o '[^ ]*galaxy-web[^ ]*')"
+        if: always()
+      - name: Print job handler log
+        run: bash -c "kubectl logs -n galaxy $(kubectl -n galaxy get pods | grep -o '[^ ]*galaxy-job[^ ]*')"
+        if: always()
+      - name: Print workflow handler log
+        run: bash -c "kubectl logs -n galaxy $(kubectl -n galaxy get pods | grep -o '[^ ]*galaxy-workflow[^ ]*')"
+        if: always()
+      - name: Install ABM
+        run: pip install gxabm
+      - name: Configure ABM and upload a file
+        run: |
+          abm config create galaxy /dev/null
+          abm config url galaxy http://localhost:8000/galaxy/
+          key=$(abm galaxy user create admin admin@example.org galaxypassword | jq -r .key)
+          abm config key galaxy $key
+          history=$(abm galaxy history create "Test Data" | jq -r .id)
+          job_id=$(abm galaxy dataset import --history $history https://benchmarking-inputs.s3.amazonaws.com/SRR24043307/downsampled20-SRR24043307-1.fastq.gz | jq -r .outputs[0].id)
+          status=$(abm galaxy job wait $job_id)
+          if [[ $status = error ]] ; then
+            exit 1
+          fi
