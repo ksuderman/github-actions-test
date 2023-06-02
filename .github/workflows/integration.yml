@@ -41,6 +41,8 @@ jobs:
         if: always()
       - name: Get node information
         run: kubectl describe nodes
+      - name: Get TPV rules
+        run: kubectl describe configmap -n galaxy galaxy-job-rules
       - name: Install ABM
         run: pip install gxabm
       - name: Configure ABM
