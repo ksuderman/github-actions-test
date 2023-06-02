@@ -76,7 +76,7 @@ jobs:
           echo "id=$job_id" >> $GITHUB_OUTPUT
       - name: Wait for the upload to complete.
         run: |
-          echo "Waiting for job ${{ step.job.outputs.id }} to finish."
+          echo "Waiting for job ${{ steps.job.outputs.id }} to finish."
           state=$(abm job show ${{ step.job.outputs.id }} | jq -r .state)
           while [[ 1 = 1 ]] ; do
             echo state
