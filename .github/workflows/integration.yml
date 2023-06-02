@@ -79,13 +79,14 @@ jobs:
           echo "Waiting for job ${{ steps.job.outputs.id }} to finish."
           state=$(abm job show ${{ steps.job.outputs.id }} | jq -r .state)
           while [[ 1 = 1 ]] ; do
-            echo state
-            if [[ state = ok ]] ; then
+            echo $state
+            if [[ $state = ok ]] ; then
               exit 0
-            elif [[ state = error ]] ; then
+            elif [[ $state = error ]] ; then
               exit 1
             else
               sleep 15
+              state=$(abm job show ${{ steps.job.outputs.id }} | jq -r .state)
             fi
           done
 #      - name: Wait for the upload to complete
