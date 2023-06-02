@@ -72,6 +72,8 @@ jobs:
           job_id=$(abm galaxy dataset import --history ${{ steps.history.outputs.id }} rna-20-1 | jq -r .outputs[0].id)
           echo "job_id=$job_id"
           echo "id=$job_id" >> $GITHUB_OUTPUT
+      - name: Get job information
+        run: abm galaxy jobs show ${{ steps.job.outputs.id }}
       - name: Wait for the upload to complete.
         run: |
           echo "Waiting for job ${{ steps.job.outputs.id }} to finish."
