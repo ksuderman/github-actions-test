@@ -89,6 +89,7 @@ jobs:
               state=$(abm job show ${{ steps.job.outputs.id }} | jq -r .state)
             fi
           done
+        shell: bash
 #      - name: Wait for the upload to complete
 #        run: |
 #          status=$(abm galaxy job wait ${{ steps.job.outputs.id }})
