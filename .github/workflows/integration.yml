@@ -47,7 +47,7 @@ jobs:
         if: always()
       - name: Install ABM
         run: pip install gxabm
-      - name: Configure ABM and upload a file
+      - name: Configure ABM
         run: |
           mkdir ~/.abm
           cd ~/.abm
@@ -57,8 +57,9 @@ jobs:
           abm config create galaxy $KUBECONFIG
           ip=$(kubectl get svc -n galaxy galaxy-nginx -o jsonpath='{ .spec.clusterIP }')
           port=$(kubectl get svc -n galaxy galaxy-nginx -o jsonpath='{ .spec.ports[0].port}')
-          echo "http://$ip:$port/galaxy/"
-          abm config url galaxy http://$ip:$port/galaxy/
+          url="http://$ip:$port/galaxy/"
+          echo "URL: $url"
+          abm config url galaxy $url
           key=$(abm galaxy user create admin admin@example.org galaxypassword | jq -r .key)
           abm config key galaxy $key
       - name: Create a history
@@ -73,10 +74,24 @@ jobs:
           job_id=$(abm galaxy dataset import --history ${{ steps.history.outputs.id }} rna-20-1 | jq -r .outputs[0].id)
           echo "job_id=$job_id"
           echo "id=$job_id" >> $GITHUB_OUTPUT
-      - name: Wait for the upload to complete
+      - name: Wait for the upload to complete.
         run: |
-          status=$(abm galaxy job wait ${{ steps.job.outputs.id }})
-          echo "Job status: $status"
-          if [[ $status = error ]] ; then
-            exit 1
-          fi
+          echo "Waiting for job ${{ step.job.outputs.id }} to finish."
+          state=$(abm job show ${{ step.job.outputs.id }} | jq -r .state)
+          while [[ 1 = 1 ]] ; do
+            echo state
+            if [[ state = ok ]] ; then
+              exit 0
+            elif [[ state = error ]] ; then
+              exit 1
+            else
+              sleep 15
+            fi
+          done
+#      - name: Wait for the upload to complete
+#        run: |
+#          status=$(abm galaxy job wait ${{ steps.job.outputs.id }})
+#          echo "Job status: $status"
+#          if [[ $status = error ]] ; then
+#            exit 1
+#          fi
