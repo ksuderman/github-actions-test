@@ -26,6 +26,8 @@ jobs:
 
           helm version
           helm list
+      - name: Get node information
+        run: kubectl describe nodes
       - name: Helm repo add galaxy
         run: helm repo add galaxy https://github.com/CloudVE/helm-charts/raw/master
       - name: Helm install Galaxy
