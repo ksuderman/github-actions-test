@@ -37,6 +37,8 @@ jobs:
       - name: Get pods, pvc, and pv
         run: kubectl get pods -n galaxy; kubectl get pvc -n galaxy; kubectl get pv -n galaxy
         if: always()
+      - name: Get node information
+        run: kubectl describe nodes
       - name: Install ABM
         run: pip install gxabm
       - name: Configure ABM
