@@ -31,7 +31,7 @@ jobs:
       - name: Helm repo add galaxy
         run: helm repo add galaxy https://github.com/CloudVE/helm-charts/raw/master
       - name: Helm install Galaxy
-        run: time bash -c 'helm install --create-namespace -n galaxy galaxy galaxy/galaxy --set refdata.enabled=false  --set configs."galaxy\.yml".galaxy.admin_users=admin@example.org --set configs."galaxy\.yml".galaxy.master_api_key=galaxypassword --set persistence.accessMode="ReadWriteOnce" --set resources.requests.memory=200Mi,resources.requests.cpu=50m,cvmfs.cvmfscsi.cache.alien.enabled=false --wait --timeout=1200s'
+        run: time bash -c 'helm install --create-namespace -n galaxy galaxy galaxy/galaxy --set refdata.enabled=false --set cvmfs.deploy=false  --set configs."galaxy\.yml".galaxy.admin_users=admin@example.org --set configs."galaxy\.yml".galaxy.master_api_key=galaxypassword --set persistence.accessMode="ReadWriteOnce" --set resources.requests.memory=200Mi,resources.requests.cpu=50m,cvmfs.cvmfscsi.cache.alien.enabled=false --wait --timeout=1200s'
         #run: time bash -c 'helm install --create-namespace -n galaxy galaxy galaxy/galaxy --set configs."galaxy\.yml".galaxy.admin_users=admin@example.org --set configs."galaxy\.yml".galaxy.master_api_key=galaxypassword --set persistence.accessMode="ReadWriteOnce" --set resources.requests.memory=1G,resources.requests.cpu=100m,cvmfs.cvmfscsi.cache.alien.enabled=false --wait --timeout=1200s'
       - name: Get events
         run: kubectl get events -n galaxy; kubectl get events -n csi-drivers;
