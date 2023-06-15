@@ -7,6 +7,7 @@ on:
         default: true
 
 jobs:
-  uses: ksuderman/github-actions-test/.github/workflows/gke.yml
-  with:
-    condition: ${{ inputs.condition }}
+  thething:
+    uses: .github/workflows/gke.yml
+    with:
+      condition: ${{ inputs.condition }}
