@@ -1,0 +1,13 @@
+name: Call the GKE workflow
+on:
+  workflow_dispatch:
+    inputs:
+      condition:
+        type: boolean
+        default: true
+
+jobs:
+  uses: .github/workflows/gke.yml
+  with:
+    condition: ${{ inputs.condition }}
+  

@@ -1,0 +1,22 @@
+name: Do something based on input variable
+on:
+  workflow_call:
+    inputs:
+      condition:
+        type: boolean
+        default: true
+jobs:
+  yes:
+    if: inputs.condition
+    runs-on: ubunut-latest
+    steps:
+      - name: Do something
+        run: echo "Yes"
+
+  no:
+    if: !inputs.condition
+    runs-on: ubuntu-latest
+    steps:
+      - name: Do something else
+        run: echo "No"
+
