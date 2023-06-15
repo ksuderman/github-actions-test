@@ -14,7 +14,7 @@ jobs:
         run: echo "Yes"
 
   no:
-    if: !inputs.condition
+    if: inputs.condition == false
     runs-on: ubuntu-latest
     steps:
       - name: Do something else
