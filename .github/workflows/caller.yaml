@@ -8,6 +8,6 @@ on:
 
 jobs:
   thething:
-    uses: .github/workflows/gke.yml@master
+    uses: ./.github/workflows/gke.yml
     with:
       condition: ${{ inputs.condition }}
