@@ -7,7 +7,6 @@ on:
         default: true
 
 jobs:
-  uses: .github/workflows/gke.yml
+  uses: ksuderman/github-actions-test/.github/workflows/gke.yml
   with:
     condition: ${{ inputs.condition }}
-  
