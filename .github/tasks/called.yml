@@ -23,7 +23,7 @@ jobs:
       - name: Do something else
         run: echo "No"
 
-  always:
+  scheduled:
     runs-on: ubuntu-latest
     steps:
       - name: Check the schedule
@@ -31,7 +31,7 @@ jobs:
         run: |
           if [[ "${{ inputs.schedule }}" = "22 6,18 0 0 0" ]] ; then
             echo "Scheduled"
-          else:
+          else
             echo "Un-scheduled"          
           fi
           echo "Done"
