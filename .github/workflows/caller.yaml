@@ -5,9 +5,13 @@ on:
       condition:
         type: boolean
         default: true
+      schedule:
+        type: string
+        default: "22 0,12 0 0 0"
 
 jobs:
   thething:
     uses: ./.github/workflows/called.yml
     with:
       condition: ${{ inputs.condition }}
+      schedule: ${{ inputs.schedule }}
