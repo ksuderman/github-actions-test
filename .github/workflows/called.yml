@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Check the schedule
         run: |
-          if [[ "${{ input.schedule }}" = "22 6,18 0 0 0" ]] ; then
+          if [[ "${{ inputs.schedule }}" = "22 6,18 0 0 0" ]] ; then
             echo "Scheduled"
           else:
             echo "Un-scheduled          
