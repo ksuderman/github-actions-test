@@ -1,4 +1,4 @@
-name: Caller Test
+name: Caller
 on:
   workflow_dispatch:
     inputs:
