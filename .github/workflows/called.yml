@@ -5,6 +5,9 @@ on:
       condition:
         type: boolean
         default: true
+      schedule:
+        type: string
+        default: '22 6,18 0 0 0'
 jobs:
   yes:
     if: inputs.condition
@@ -20,3 +23,14 @@ jobs:
       - name: Do something else
         run: echo "No"
 
+  always:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the schedule
+        run: |
+          if [[ "${{ input.schedule }}" = "22 6,18 0 0 0" ]] ; then
+            echo "Scheduled"
+          else:
+            echo "Un-scheduled          
+          fi
+          echo "Done"
