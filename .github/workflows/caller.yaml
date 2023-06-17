@@ -8,6 +8,6 @@ on:
 
 jobs:
   thething:
-    uses: ./.github/tasks/called.yml
+    uses: ./.github/workflows/called.yml
     with:
       condition: ${{ inputs.condition }}
