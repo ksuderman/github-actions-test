@@ -27,10 +27,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check the schedule
+        shell: bash
         run: |
           if [[ "${{ inputs.schedule }}" = "22 6,18 0 0 0" ]] ; then
             echo "Scheduled"
           else:
-            echo "Un-scheduled          
+            echo "Un-scheduled"          
           fi
           echo "Done"
