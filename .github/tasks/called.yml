@@ -11,7 +11,7 @@ on:
 jobs:
   yes:
     if: inputs.condition
-    runs-on: ubunut-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Do something
         run: echo "Yes"
