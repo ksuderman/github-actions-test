@@ -1,4 +1,4 @@
-name: Call the GKE workflow
+name: Caller Test
 on:
   workflow_dispatch:
     inputs:
@@ -8,6 +8,6 @@ on:
 
 jobs:
   thething:
-    uses: ./.github/workflows/called.yml
+    uses: ./.github/tasks/called.yml
     with:
       condition: ${{ inputs.condition }}
